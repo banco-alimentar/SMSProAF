@@ -21,27 +21,52 @@ namespace SMSProAF
         {
             log.LogInformation("SendSMS Called");
 
-            string ReqSecret, ReqMsisdn, ReqMessage;
 
+            string ReqSecret, ReqMsisdn, ReqMessage,ReqChannel;
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            ReqSecret = data?.secret ?? "";
-            ReqMsisdn = data?.msisdn ?? "";
-            ReqMessage = data?.message ?? "";
 
-            string Secret = Environment.GetEnvironmentVariable("secret", EnvironmentVariableTarget.Process);
-            if (Secret!=ReqSecret)
+            try
+            { dynamic data = JsonConvert.DeserializeObject(requestBody);
+                if (data == null)
+                {
+                    return new BadRequestObjectResult(@"no body was passed.");
+                }
+
+                ReqChannel = data?.channel ?? String.Empty;
+                ReqSecret = data?.secret ?? String.Empty;
+                ReqMsisdn = data?.msisdn ?? String.Empty;
+                ReqMessage = data?.message ?? String.Empty;
+
+            }
+            catch (JsonReaderException exc)
             {
-                log.LogInformation("Incorrect Secret");
-                return new BadRequestObjectResult("Incorrect Secret");
+                return new BadRequestObjectResult($"Error parsing json body: {exc.Message}");
+            }
+            catch (Exception exc)
+            {
+                return new BadRequestObjectResult($"Exception processing request:{exc.Message}");
+            }
+            
+
+            if (ReqChannel==String.Empty || ReqSecret== String.Empty || ReqMessage==String.Empty || ReqMsisdn==String.Empty)
+            {
+                return new BadRequestObjectResult(@"Body must include a json message with {""channel"":"""",""secret"":"""",""msisdn"":"""",""message"":""""}");
             }
 
-            log.LogInformation($"msisdn={ReqMsisdn} message={ReqMessage}");
+            
+            string Secret = Environment.GetEnvironmentVariable(ReqChannel, EnvironmentVariableTarget.Process);
+            if (Secret!=ReqSecret)
+            {
+                log.LogInformation($"Incorrect Secret for channel {ReqChannel}");
+                return new BadRequestObjectResult($"Incorrect Secret for channel {ReqChannel}");
+            }
+
+            log.LogInformation($"channel={ReqChannel} msisdn={ReqMsisdn} message={ReqMessage}");
 
             var _url = "https://smspro.nos.pt/smspro/smsprows.asmx";
             var _action = "https://smspro.nos.pt/smspro/smsprows.asmx?op=SendSMS";
 
-            XmlDocument soapEnvelopeXml = CreateSoapEnvelope(ReqMsisdn,ReqMessage, Environment.GetEnvironmentVariable("SMSProUsername", EnvironmentVariableTarget.Process), Environment.GetEnvironmentVariable("SMSProPassword", EnvironmentVariableTarget.Process));
+            XmlDocument soapEnvelopeXml = CreateSoapEnvelope(ReqMsisdn, ReqMessage, Environment.GetEnvironmentVariable("SMSProUsername", EnvironmentVariableTarget.Process), Environment.GetEnvironmentVariable("SMSProPassword", EnvironmentVariableTarget.Process));
             HttpWebRequest webRequest = CreateWebRequest(_url, _action);
             InsertSoapEnvelopeIntoWebRequest(soapEnvelopeXml, webRequest);
 
@@ -64,9 +89,7 @@ namespace SMSProAF
             }
 
 
-            return data != null
-                ? (ActionResult)new OkObjectResult($"SMS sent to {ReqMsisdn}")
-                : new BadRequestObjectResult(@"Body must include a json message with {""secret"":"""",""msisdn"":"""",""message"":""""}");
+            return (ActionResult)new OkObjectResult($"SMS sent to {ReqMsisdn}");
         }
 
 
