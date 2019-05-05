@@ -25,6 +25,30 @@ namespace SMSProTests
             var response = await SendSMS.Run(request, logger);
             Assert.Equal(typeof(BadRequestObjectResult), response.GetType());
         }
+
+        [Fact]
+        public async void SendSMS_With_Missing_Parameter_Channel_In_Json()
+        {
+            var request = TestFactory.CreateHttpRequest(string.Empty, string.Empty, "{\"other\":\"CampanhasVB6\",\"secret\":\"2\",\"msisdn\":\"NUMEROTELEMOVEL\",\"message\":\"Mensagem a enviar\"}");
+            var response = await SendSMS.Run(request, logger);
+            Assert.Equal(typeof(BadRequestObjectResult), response.GetType());
+        }
+
+        [Fact]
+        public async void SendSMS_With_Missing_Parameter_secret_In_Json()
+        {
+            var request = TestFactory.CreateHttpRequest(string.Empty, string.Empty, "{\"channel\":\"CampanhasVB6\",\"msisdn\":\"NUMEROTELEMOVEL\",\"message\":\"Mensagem a enviar\"}");
+            var response = await SendSMS.Run(request, logger);
+            Assert.Equal(typeof(BadRequestObjectResult), response.GetType());
+        }
+
+        [Fact]
+        public async void SendSMS_With_Wrong_Secret_In_Json()
+        {
+            var request = TestFactory.CreateHttpRequest(string.Empty, string.Empty, "{\"channel\":\"CampanhasVB6\",\"secret\":\"Wrong!Secret!Test\",\"msisdn\":\"NUMEROTELEMOVEL\",\"message\":\"Mensagem a enviar\"}");
+            var response = await SendSMS.Run(request, logger);
+            Assert.Equal(typeof(BadRequestObjectResult), response.GetType());
+        }
         //[Theory]
         //[MemberData(nameof(TestFactory.Data), MemberType = typeof(TestFactory))]
         //public async void Http_trigger_should_return_known_string_from_member_data(string queryStringKey, string queryStringValue)
