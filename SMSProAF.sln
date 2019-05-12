@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMSProAF", "SMSProAF\SMSProAF.csproj", "{8F82C4B7-1268-40B0-9BB5-AD162454D2EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSProTests", "SMSProTests\SMSProTests.csproj", "{D0D0A960-4F3F-442B-B1E4-0FAEA32E2069}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMSProTests", "SMSProTests\SMSProTests.csproj", "{D0D0A960-4F3F-442B-B1E4-0FAEA32E2069}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSProConsoleCSharp", "SMSProConsoleCSharp\SMSProConsoleCSharp.csproj", "{F73F91C7-6A6C-44C3-9A07-4BB6E4C78A72}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SMSProConsoleVB", "SMSProConsoleVB\SMSProConsoleVB.vbproj", "{902CD47E-885A-41C6-93CB-D9C2BF55EFC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{D0D0A960-4F3F-442B-B1E4-0FAEA32E2069}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0D0A960-4F3F-442B-B1E4-0FAEA32E2069}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0D0A960-4F3F-442B-B1E4-0FAEA32E2069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F73F91C7-6A6C-44C3-9A07-4BB6E4C78A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F73F91C7-6A6C-44C3-9A07-4BB6E4C78A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F73F91C7-6A6C-44C3-9A07-4BB6E4C78A72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F73F91C7-6A6C-44C3-9A07-4BB6E4C78A72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{902CD47E-885A-41C6-93CB-D9C2BF55EFC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{902CD47E-885A-41C6-93CB-D9C2BF55EFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{902CD47E-885A-41C6-93CB-D9C2BF55EFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{902CD47E-885A-41C6-93CB-D9C2BF55EFC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
