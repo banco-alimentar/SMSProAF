@@ -1,5 +1,6 @@
 # SMSProAF
-Azure Function to send SMS using NOS SMSPro gateway. TRiggered via HTTP and shared secret
+Azure Function to send SMS using NOS SMSPro gateway. Triggered via HTTP and shared secret
+Used during Food Bank Campaigns to inform the people responsible for each supermarket about the total weight received
 
 https://smspro.nos.pt/smspro/bancoalime/
 
